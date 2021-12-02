@@ -78,9 +78,21 @@ def singleMachineWeight():
             z += solution[i]*w_sorted[i]
         print("total completion time minimized",z,"\n")
 
-# def main():
-#     singleMachine(njobs,p)
-#     #singleMachineWeight()
+def multipleMachine(njobs: int, nmachines: int, p):
+    p.sort()
 
-# if __name__ == "__main__":
-#     main()
+    model = Model("MiniZincModels/jobScheduling_multipleMachine.mzn")
+    gecode = Solver.lookup("gecode")
+    instance = Instance(gecode,model)
+    instance['njobs'] = njobs
+    instance['nmachines'] = nmachines
+    instance['p'] = p
+    
+    result = instance.solve()
+
+    if not result:
+        print('NO SOLUTION!')
+    else:
+        solution = result['v']
+        print(solution)
+        print("total completion time minimized",solution,"\n")
