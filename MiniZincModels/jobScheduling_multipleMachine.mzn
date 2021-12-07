@@ -5,10 +5,10 @@ set of int:jobs=1..njobs;
 set of int:machines=1..nmachines;
 set of int: dom = 0..1;
 array[jobs] of int: p;%input tempi di processamento
-constraint assert(njobs > 0, "ValueError: njobs must be non-negative");
-constraint assert(nmachines > 1, "ValueError: machines must be more than one");
+constraint assert(njobs > 0, "ValueError: njobs must be non-negative, you have to schedule at least 1 job");
+constraint assert(nmachines > 1,  "ValueError: machines must be more than one, otherwise select single machine option");
 constraint assert(nmachines < njobs, "ValueError: machines must be less than jobs");
-constraint assert(forall(i in jobs)(p[i]>0),"ValueError: p must be non-negative");
+constraint assert(forall(i in jobs)(p[i]>0),"ValueError: processing times must be at least 1");
 
 
 array[machines,jobs] of var dom: assign;% tempi di completamento
